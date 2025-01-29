@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import google.generativeai as genai
 from dotenv import load_dotenv
+from core.ram_info import RamInfo
 import pyttsx3
 import os
 load_dotenv()
@@ -56,5 +57,10 @@ if __name__ == "__main__":
         if 'exit' in query:
             speak().speak("Goodbye, Have a nice day!")
             break
-        # speak().speak(query)
-        bard().chat(query)
+        elif 'ram' in query:
+            speak().speak("Here are the RAM details:")
+            RamInfo().ram_info()
+            speak().speak(RamInfo().info())
+        else:
+            # speak().speak(query)
+            bard().chat(query)
