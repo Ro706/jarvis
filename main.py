@@ -37,8 +37,7 @@ class speak:
 
 class bard:
     def __init__(self):
-        self.API_KEY = os.getenv("GEMINI_KEY")
-        genai.configure(api_key=self.API_KEY)
+        genai.configure(api_key=os.getenv("GEMINI_KEY"))
     def chat(self,query):
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(query)
