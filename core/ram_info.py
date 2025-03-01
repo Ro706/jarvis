@@ -1,4 +1,4 @@
-from os import system
+# from os import system
 import psutil
 class RamInfo:
     def __init__(self):

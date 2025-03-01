@@ -1,0 +1,14 @@
+cryptography
+requests
+speechrecognition
+pyttsx3
+google-generativeai
+pyaudio
+flask
+flask-cors
+flask-sqlalchemy
+dotenv
+psutil
+pandas
+pyjokes
+smtplib
