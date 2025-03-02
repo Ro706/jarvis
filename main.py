@@ -3,6 +3,7 @@ import pyjokes
 import speech_recognition as sr
 import google.generativeai as genai
 from dotenv import load_dotenv
+from core.PhotoCaptureApp import create_gui
 from core.ram_info import RamInfo
 from core.cpu_info import cpu_info
 from core.weather import tellmeTodaysWeather
@@ -406,6 +407,9 @@ if __name__ == "__main__":
         elif "game" in query:
             speaker.speak("Opening a game for you!")
             game()
+        elif "selfie" in query:
+            speaker.speak("Taking a selfie for you!")
+            create_gui()
         else:
             # Use Gemini for other queries
             response = Bard().chat(query)
