@@ -226,7 +226,7 @@ if __name__ == "__main__":
             webbrowser.open("youtube.com")
         elif 'open google' in query:
             speaker.speak("Opening Google")
-            query = query.replace("open google and", "")
+            query = query.replace("open google and search for", "")
             webbrowser.open(f"https://www.google.com/search?q={query}")
         elif 'open stackoverflow' in query:
             speaker.speak("Opening Stackoverflow")
