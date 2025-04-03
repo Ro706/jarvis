@@ -410,6 +410,8 @@ if __name__ == "__main__":
         elif "selfie" in query:
             speaker.speak("Taking a selfie for you!")
             create_gui()
+        elif "" in query:
+            pass
         else:
             # Use Gemini for other queries
             response = Bard().chat(query)
