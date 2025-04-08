@@ -8,6 +8,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 import google.generativeai as genai
 import spacy
+from textblob import TextBlob
+from transformers import pipeline
 from core.PhotoCaptureApp import create_gui
 from core.ram_info import RamInfo
 from core.cpu_info import cpu_info
@@ -21,6 +23,23 @@ load_dotenv()
 
 # Load SpaCy model for NLP
 nlp = spacy.load("en_core_web_sm")
+
+# Load sentiment analysis
+def analyze_sentiment(text):
+    analysis = TextBlob(text)
+    if analysis.sentiment.polarity > 0:
+        return "positive"
+    elif analysis.sentiment.polarity < 0:
+        return "negative"
+    else:
+        return "neutral"
+
+# Load question-answering pipeline for contextual understanding
+qa_pipeline = pipeline("question-answering")
+
+def answer_question(context, question):
+    result = qa_pipeline(question=question, context=context)
+    return result['answer']
 
 def signal_handler(sig, frame):
     print("Goodbye, Have a nice day!")
@@ -163,6 +182,8 @@ def main():
     user_name = input("What's your name? ")
     wish_me(user_name)
 
+    context = ""  # To maintain conversation context
+
     while True:
         query = speech_recognizer.listen()
         if query == "none":
@@ -170,6 +191,9 @@ def main():
 
         intent, entities = extract_intent_and_entities(query)
         print(f"Intent: {intent}, Entities: {entities}")
+
+        sentiment = analyze_sentiment(query)
+        print(f"Sentiment: {sentiment}")
 
         if 'exit' in query or 'goodbye' in query:
             speaker.speak("Goodbye, Have a nice day!")
@@ -294,6 +318,11 @@ def main():
         elif "selfie" in query:
             speaker.speak("Taking a selfie for you!")
             create_gui()
+        elif "question" in intent:
+            # Use contextual understanding to answer questions
+            answer = answer_question(context, query)
+            speaker.speak(answer)
+            context = query  # Update context with the latest query
         else:
             response = Bard().chat(query)
             speaker.speak(response)

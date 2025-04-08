@@ -12,3 +12,6 @@ psutil
 pandas
 pyjokes
 smtplib
+spacy
+textblob
+transformers
