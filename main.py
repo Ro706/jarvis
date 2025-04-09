@@ -165,6 +165,20 @@ def extract_intent_and_entities(query):
         if token.ent_type_:
             entities.append((token.text, token.ent_type_))
 
+    # Post-process time entities to ensure correct formatting
+    for i, (entity, label) in enumerate(entities):
+        if label == "TIME":
+            # Normalize time format
+            time_str = entity.lower().replace(".", "").replace("am", " AM").replace("pm", " PM")
+            try:
+                # Parse the time string to a datetime object
+                time_obj = datetime.strptime(time_str, "%I:%M %p")
+                # Format it back to a standardized format
+                entities[i] = (time_obj.strftime("%I:%M %p"), label)
+            except ValueError:
+                # If parsing fails, keep the original entity
+                pass
+
     return intent, entities
 
 def get_user_input(speaker, speech_recognizer, prompt):
