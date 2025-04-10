@@ -342,4 +342,5 @@ def main():
             speaker.speak(response)
 
 if __name__ == "__main__":
-    main()
+    main() # This is the main entry point for the script.
+# The script is designed to be run as a standalone program.
